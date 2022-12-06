@@ -1,0 +1,159 @@
+
+
+<div id="main-content" class="container">
+  <h2 id="menu-title" class="text-center">Stock Info</h2>
+  <form
+    #userForm="ngForm"
+    (ngSubmit)="onSubmit(userForm.value)"
+    class="d-flex justify-content-center"
+  >
+    <div class="form-group row">
+      <label for="symbol" class="col-sm-2 col-form-label pt-3">Symbol</label>
+
+      <div class="col-sm-8 pt-3">
+        <em
+          *ngIf="
+            userForm.controls.symbol?.invalid &&
+            userForm.controls.symbol?.touched
+          "
+          >Required</em
+        >
+        <input
+          type="text"
+          id="symbol"
+          name="symbol"
+          class="form-control ng-untouched ng-pristine ng-valid"
+          [(ngModel)]="symbol"
+          placeholder="Enter symbol (ex: msft)"
+          required
+        />
+      </div>
+      <div class="col-sm-2 pt-3">
+        <button
+          id="btn-submit"
+          class="btn btn-primary"
+          [disabled]="userForm.invalid"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+  <!-- <div>
+        <section class="row">
+          <div class="col-sm-6 col-xs-12">
+            <section class="row">
+              <div class="col-sm-6 p-3">
+                <input
+                  type="text"
+                  [(ngModel)]="symbol"
+                  id="symbol"
+                  placeholder="symbol (ex: msft)"
+                />
+              </div>
+              <div class="col-sm-4 p-3">
+                <button
+                  id="submit"
+                  type="submit"
+                  (click)="onSubmit()"
+                  class="btn btn-primary btn-sm"
+                >
+                  Submit
+                </button>
+              </div>
+            </section>
+          </div>
+        </section>
+      </div> -->
+  <div *ngIf="isLoading" class="d-flex justify-content-center m-5">
+    <div class="spinner-border" role="status"></div>
+  </div>
+  <ng-container *ngIf="this.newsList.length != 0 && !isLoading">
+    <hr class="hidden-xs justify-content-center" />
+    <section class="row">
+      <div class="col-sm-6 col-xs-12">
+        <div class="summary-panel">
+          <h3 class="text-center">Stock Summary</h3>
+          <div id="stock-summary">
+            <div class="card">
+              <h5 class="card-header">{{ summary.longName }}</h5>
+              <div class="card-body">
+                <h5 class="card-title">Sector</h5>
+                <p class="card-text">
+                  {{ summary.sector }}
+                </p>
+                <h5 class="card-title">Description</h5>
+                <p class="card-text">
+                  {{ summary.longBusinessSummary }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--End of text-content-->
+      </div>
+      <hr class="d-sm-none" />
+      <div class="col-sm-6 col-xs-12">
+        <div class="news-panel">
+          <h3 class="news-title text-center">Stock News</h3>
+          <div class="news-content">
+            <div class="newsItem" *ngFor="let news of newsList">
+              <div class="card">
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <h5 class="card-title news-title pb-3">
+                      <a [href]="news.link" target="_blank">
+                        {{ news.title }}
+                      </a>
+                    </h5>
+                    <footer class="blockquote-footer">
+                      <cite title="Source Title"
+                        >{{ news.publisher }} -
+                        {{
+                          news.providerPublishTime * 1000 | date: 'MM/dd/yyyy'
+                        }}</cite
+                      >
+                    </footer>
+                  </blockquote>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--End of text-content-->
+      </div>
+      <hr class="d-sm-none" />
+      <div class="col-sm-12 col-xs-12">
+        <div class="chart-panel">
+          <h3 class="text-center">Stock Chart</h3>
+          <!-- <h3 class="text-center">Stock Chart</h3> -->
+          <div id="stock-chart" #stockChart>
+            <div *ngIf="!chartData" class="d-flex justify-content-center m-5">
+              <div class="spinner-border" role="status"></div>
+            </div>
+            <ng-container *ngIf="chartData">
+              <app-display-chart
+                [pricesData]="chartData"
+                [symbol]="symbol | uppercase"
+              ></app-display-chart>
+            </ng-container>
+          </div>
+        </div>
+        <!--End of chart-panel-->
+      </div>
+      <hr class="d-sm-none" />
+      <div class="col-sm-12 col-xs-12">
+        <div class="calculator-panel">
+          <h3 class="text-center">Buy & Hold Calculator</h3>
+          <div id="buy-hold-table" #buyHoldTab>
+            <app-buy-and-hold-calculator
+              [symbol]="symbol"
+            ></app-buy-and-hold-calculator>
+          </div>
+        </div>
+        <!--End of chart-panel-->
+      </div>
+    </section>
+  </ng-container>
+  <!--End of row-->
+</div>

@@ -1,0 +1,41 @@
+p {
+  font-family: Lato;
+}
+
+#symbol {
+  width: 100%;
+}
+
+hr {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+}
+a :hover,
+a:active {
+  text-decoration: underline;
+}
+em {
+  color: red;
+  position: absolute;
+  bottom: 40px;
+}
+
+.col-form-label {
+  font-size: large;
+  font-weight: 400;
+}
+
+.form-group {
+  position: relative;
+}
+
+#stockChart {
+  width: 100%;
+  display: block;
+}
